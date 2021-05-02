@@ -45,7 +45,7 @@ exports.singUp = (req, res) => {
             });
           });
       }else {//User found with same email
-        res.status(500).send({
+        res.status(400).send({
           message: "User Already Exist."
         });
       }
@@ -84,7 +84,13 @@ exports.login = (req, res) => {
               res.status(404).send({
                 message: "Some error occurred, please try again later."
               });
-            } else res.send(user);
+            } else res.send({
+              firstName,
+              lastName,
+              email,
+              role,
+              isLoggedIn
+            });
           })
           .catch(err => {
             res.status(500).send({
@@ -93,7 +99,7 @@ exports.login = (req, res) => {
           });
 
         }else{
-          res.status(500).send({
+          res.status(401).send({
             message: "Please enter valid password."
           });
         }
