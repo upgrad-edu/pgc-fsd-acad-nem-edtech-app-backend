@@ -2,7 +2,7 @@ const db = require("../models");
 const User = db.users;
 
 // Create and Save a user
-exports.singUp = (req, res) => {
+exports.signUp = (req, res) => {
     // Validate request
     if (!req.body.email && !req.body.password) {
       res.status(400).send({ message: "Please provide email and password to continue." });
@@ -45,8 +45,8 @@ exports.singUp = (req, res) => {
             });
           });
       }else {//User found with same email
-        res.status(500).send({
-          message: "User Already Exist."
+        res.status(400).send({
+          message: "User Already Exists."
         });
       }
       
@@ -71,8 +71,9 @@ exports.login = (req, res) => {
     User.findOne(filter, (err, user)=>{
      
       if(err || user === null){
-        res.status(500).send({
-          message: "User Not Found."
+        res.status(401).send({
+          //better message wrt security. Prevents brute force attacks
+          message: "Email or password not correct."
         });
       }else {
         if(password === user.password){
@@ -84,7 +85,13 @@ exports.login = (req, res) => {
               res.status(404).send({
                 message: "Some error occurred, please try again later."
               });
-            } else res.send(user);
+            } else res.send({
+              firstName,
+              lastName,
+              email,
+              role,
+              isLoggedIn
+            });
           })
           .catch(err => {
             res.status(500).send({
@@ -93,8 +100,8 @@ exports.login = (req, res) => {
           });
 
         }else{
-          res.status(500).send({
-            message: "Please enter valid password."
+          res.status(401).send({
+            message: "Email or password not correct."
           });
         }
       }

@@ -10,7 +10,10 @@ module.exports = app => {
     router.get("/", tutorials.findAlltitle);
 
     // Retrieve all Courses by category
-    router.get("/category", tutorials.findAllCategory);
+    router.get("/categories/:categoryName", tutorials.findCoursesByCategory);
+
+    // Retrieve all categories
+    router.get("/categories", tutorials.findAllCategories);
   
     // Retrieve all published Courses
     router.get("/published", tutorials.findAllPublished);

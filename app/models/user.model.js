@@ -3,10 +3,10 @@ module.exports = mongoose => {
       "user",
       mongoose.Schema(
         {
-          firstName: String,
+          firstName: {type: String, required: true},
           lastName: String,
           email: { type : String , unique : true, required : true , dropDups: true},
-          password: String,
+          password: {type: String, required: true},
           role: {type: String, default: 'user'}, /*types: admin ,user*/
           isLoggedIn: Boolean
         },

@@ -65,8 +65,8 @@ exports.findAlltitle = (req, res) => {
 
 // Retrieve all Courses from the database by Category.
 //if no category is passed then all courses are retrieved
-exports.findAllCategory = (req, res) => {
-  const category = req.query.category;
+exports.findCoursesByCategory = (req, res) => {
+  const category = req.params.categoryName;
   var condition = category ? { category: { $regex: new RegExp(category), $options: "i" } } : {};
 
   Tutorial.find(condition)
@@ -80,6 +80,21 @@ exports.findAllCategory = (req, res) => {
       });
     });
 };
+
+exports.findAllCategories = (req, res) => {
+  
+  Tutorial.find({}).select('category').distinct('category')
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Internal error occured"
+      });
+    });
+};
+
 
 
 // Find a single Course with an id
@@ -165,7 +180,7 @@ exports.deleteAll = (req, res) => {
 
 // Find all published courses
 exports.findAllPublished = (req, res) => {
-  Tutorial.find({ published: true })
+  Tutorial.find({ published: true }).sort('-createdAt')
       .then(data => {
         res.send(data);
       })

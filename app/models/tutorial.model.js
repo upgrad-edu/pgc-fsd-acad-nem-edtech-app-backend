@@ -5,8 +5,8 @@ module.exports = mongoose => {
         {
           title: {type: String, required:true},
           description: String,
-          skills : String,
-          chapters : {type: String, required:true, trim: true},
+          skills : [String],
+          chapters : {type: [String], required:true, trim: true},
           published: Boolean, 
           priceInRupees : {type: Number, default: 5000, trim: true, min : 0, max: 30000},
           priceAfterDiscount : {type: Number, min : 0, max: 30000, trim: true},  // at frontend don't allow -ve price
