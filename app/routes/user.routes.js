@@ -5,7 +5,7 @@ module.exports = app => {
   
     router.post("/login", users.login);
   
-    router.post("/sign-up", users.singUp);
+    router.post("/sign-up", users.signUp);
 
     router.post("/logout", users.logout);
   
